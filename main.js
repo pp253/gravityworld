@@ -14,7 +14,7 @@ class GravityWorld {
 
     this.loop = setInterval(this.operate.bind(this), parseInt(1000 / this.state.fps / this.state.playSpeed))
   }
-    
+
   start () {
     this.state.pause = false
   }
@@ -99,7 +99,7 @@ class GravityWorld {
             y: ((ball.mass - otherBall.mass) * ball.velocity.y + 2 * otherBall.mass * otherBall.velocity.y) / (ball.mass + otherBall.mass)
           }
         } else {
-          let r_2_5 =  = r_2 ** 2.5
+          let r_2_5 = r_2 ** 2.5
           let GM_r2_5 = this.state.gravitationalConstant * otherBall.mass / r_2_5 * (1 / this.state.fps)
 
           ball.velocity.x += GM_r2_5 * deltaX
@@ -165,7 +165,7 @@ function run () {
   })
 
   myWorld.addBall(ballSun)
-  myWorld.addBall(ballEarth
+  myWorld.addBall(ballEarth)
 
   myWorld.start()
 }
