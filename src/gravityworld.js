@@ -8,10 +8,10 @@ class GravityWorld {
       gravitationalConstant: (state && state.gravitationalConstant) || 3192053.26975,
       render: (state && state.render) || true,
       margin: {
-        top: 2000,
-        right: 2000,
-        bottom: 2000,
-        left: 2000
+        top: (state && state.margin && state.margin.top) || 2000,
+        right: (state && state.margin && state.margin.right) || 2000,
+        bottom: (state && state.margin && state.margin.bottom) || 2000,
+        left: (state && state.margin && state.margin.left) || 2000
       },
       garbageCollection: true
     }
@@ -47,17 +47,17 @@ class GravityWorld {
         y: (ball.velocity && ball.velocity.y) || 0
       },
       mass: ball.mass || 0,
-      color: ball.color || 'black'
+      strokeColor: ball.strokeColor || 'none',
+      color: ball.color || 'black',
+      fixed: ball.fixed || false
     }
   }
 
   addBall (ball) {
-    console.log(this.balls.length)
     this.balls.push(ball)
   }
 
   removeBall (ballIdx) {
-    console.log(this.state.balls)
     if (!this.balls[ballIdx]) {
       return
     }
@@ -66,7 +66,7 @@ class GravityWorld {
 
   render () {
     /*
-    // @pp253 this cannot work, and i don't know why
+    // @pp253 this cannot work, but i don't know why
 
     this.balls.forEach(ball => {
       let rDividedBy2 = ball.r / 2
@@ -90,7 +90,9 @@ class GravityWorld {
         0,
         2 * Math.PI
       )
-      this.canvasCtx.stroke()
+      if (this.strokeColor && this.strokeColor !== 'none') {
+        this.canvasCtx.stroke()
+      }
       this.canvasCtx.fillStyle = ball.color
       this.canvasCtx.fill()
       this.canvasCtx.closePath()
@@ -142,7 +144,7 @@ class GravityWorld {
 
     // apply velocity to each ball
     this.balls.forEach((ball, ballIdx) => {
-      if (!ball) {
+      if (!ball || ball.fixed) {
         return
       }
 
