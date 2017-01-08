@@ -22,7 +22,7 @@ function run () {
     myWorld.resize(app.clientWidth, app.clientHeight)
   }
 
-  setInterval(() => {
+  let loop = () => {
     let offset = 120
     let speed = 9.9635
     let ballBoy = myWorld.newBall({
@@ -47,7 +47,10 @@ function run () {
     })
     myWorld.addBall(ballBoy)
     myWorld.addBall(ballGirl)
-  }, 5000)
+  }
+
+  loop()
+  setInterval(loop, 5000)
 
   myWorld.start()
 }
