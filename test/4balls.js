@@ -39,7 +39,8 @@ function run () {
       y: 0
     },
     mass: 30000,
-    color: 'red'
+    color: 'red',
+    fixed: true
   })
   myWorld.addBall(ballSun)
 
