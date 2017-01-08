@@ -39,7 +39,7 @@ class Simulator extends GravityWorld {
     }
   }
 
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
   }
 }
