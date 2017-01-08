@@ -123,10 +123,9 @@ class GravityWorld {
 
         // deal with collision
         if (r_2 <= (ball.r + otherBall.r) ** 2) {
-          tmpVelocity[ballIdx] = {
-            x: ((ball.mass - otherBall.mass) * ball.velocity.x + 2 * otherBall.mass * otherBall.velocity.x) / (ball.mass + otherBall.mass),
-            y: ((ball.mass - otherBall.mass) * ball.velocity.y + 2 * otherBall.mass * otherBall.velocity.y) / (ball.mass + otherBall.mass)
-          }
+          tmpVelocity[ballIdx] = tmpVelocity[ballIdx] || {x: 0, y: 0}
+          tmpVelocity[ballIdx].x += ((ball.mass - otherBall.mass) * ball.velocity.x + 2 * otherBall.mass * otherBall.velocity.x) / (ball.mass + otherBall.mass)
+          tmpVelocity[ballIdx].y += ((ball.mass - otherBall.mass) * ball.velocity.y + 2 * otherBall.mass * otherBall.velocity.y) / (ball.mass + otherBall.mass)
         } else {
           let r_2_5 = r_2 ** 2.5
           let GM_r2_5 = this.state.gravitationalConstant * otherBall.mass / r_2_5 * (1 / this.state.fps)
