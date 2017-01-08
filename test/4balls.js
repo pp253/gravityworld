@@ -23,9 +23,9 @@ function run () {
       y: app.clientHeight / 2
     },
     offset: 200,
-    distance: 800,
+    distance: 1000,
     initialSpeed: 18.9,
-    number: 6,
+    number: 4,
     mass: 100,
     color: 'green'
   }
