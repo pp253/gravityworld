@@ -33,6 +33,11 @@ class GravityWorld {
     this.state.pause = true
   }
 
+  reset () {
+    this.balls = []
+    this.state.round = 0
+  }
+
   startRender () {
     this.state.render = true
   }
