@@ -1,4 +1,3 @@
-// inspired by sebuda
 
 function run () {
   let app = document.getElementById('app')

@@ -7,7 +7,8 @@ function run () {
   let worldState = {
       fps: 60,
       playSpeed: 1,
-      gravitationalConstant: 3192053.26975
+      gravitationalConstant: 3192053.26975,
+      margin: 1000
   }
   let myWorld = new GravityWorld({canvas: canvas, ctx: ctx}, worldState)
 
@@ -24,7 +25,7 @@ function run () {
     },
     offset: 200,
     distance: 1000,
-    initialSpeed: 18.9,
+    initialSpeed: 18.575,
     number: 4,
     mass: 100,
     color: 'green'
@@ -72,7 +73,7 @@ function run () {
       })
       props.gravityWorld.addBall(ball)
     }
-  }, 1700)
+  }, 2000)
 
   myWorld.start()
 }
