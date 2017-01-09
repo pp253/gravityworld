@@ -1,19 +1,22 @@
 class GravityWorld {
   constructor (canvas, state) {
+    state = state || {}
     this.state = {
       pause: true,
       round: 0,
-      fps: (state && state.fps) || 60,
-      playSpeed: (state && state.playSpeed) || 1,
-      gravitationalConstant: (state && state.gravitationalConstant) || 3192053.26975,
-      render: (state && state.render) || true,
+      fps: state.fps || 60,
+      operateFps: state.operateFps || state.fps || 60,
+      playSpeed: state.playSpeed || 1,
+      gravitationalConstant: state.gravitationalConstant || 3192053.26975,
+      render: state.render || true,
       margin: {
-        top: (state && state.margin && state.margin.top) || 2000,
-        right: (state && state.margin && state.margin.right) || 2000,
-        bottom: (state && state.margin && state.margin.bottom) || 2000,
-        left: (state && state.margin && state.margin.left) || 2000
+        top: (state.margin && state.margin.top) || state.margin || 2000,
+        right: (state.margin && state.margin.right) || state.margin || 2000,
+        bottom: (state.margin && state.margin.bottom) || state.margin || 2000,
+        left: (state.margin && state.margin.left) || state.margin || 2000
       },
-      garbageCollection: true
+      garbageCollection: true,
+      lastGarbageCollectionIdx: -1
     }
 
     this.balls = []
@@ -28,6 +31,14 @@ class GravityWorld {
 
   pause () {
     this.state.pause = true
+  }
+
+  startRender () {
+    this.state.render = true
+  }
+
+  pauseRender () {
+    this.state.render = false
   }
 
   newBall (ball) {
@@ -54,12 +65,31 @@ class GravityWorld {
   }
 
   addBall (ball) {
-    this.balls.push(ball)
+    if (this.state.lastGarbageCollectionIdx >= 0) {
+      this.balls[this.state.lastGarbageCollectionIdx] = ball
+
+      let flagNoLastGarbageCollectionIdx = true
+      for (let i = this.state.lastGarbageCollectionIdx; i < this.balls.length; i++) {
+        if (this.balls[i] === undefined) {
+          this.state.lastGarbageCollectionIdx = i
+          flagNoLastGarbageCollectionIdx = false
+          break
+        }
+      }
+      if (flagNoLastGarbageCollectionIdx) {
+        this.state.lastGarbageCollectionIdx = -1
+      }
+    } else {
+      this.balls.push(ball)
+    }
   }
 
   removeBall (ballIdx) {
     if (!this.balls[ballIdx]) {
       return
+    }
+    if (this.state.lastGarbageCollectionIdx > ballIdx || this.state.lastGarbageCollectionIdx == -1) {
+      this.state.lastGarbageCollectionIdx = ballIdx
     }
     delete this.balls[ballIdx]
   }
