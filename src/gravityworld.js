@@ -4,9 +4,9 @@ class GravityWorld {
     this.state = {
       pause: true,
       round: 0,
-      fps: state.fps || 60,
-      operateFps: state.operateFps || state.fps || 60,
-      playSpeed: state.playSpeed || 1,
+      fps: state.fps || 60, // Obsolete
+      operateFps: state.operateFps || state.fps || 60, // Obsolete
+      playSpeed: state.playSpeed || 1, // Obsolete
       gravitationalConstant: state.gravitationalConstant || 3192053.26975,
       render: state.render || true,
       margin: {
@@ -25,7 +25,7 @@ class GravityWorld {
   }
 
   start () {
-    this.loop = setInterval(this.operate.bind(this), parseInt(1000 / this.state.fps / this.state.playSpeed))
+    window.requestAnimationFrame(this.operate.bind(this))
     this.state.pause = false
   }
 
@@ -93,7 +93,7 @@ class GravityWorld {
     if (!this.balls[ballIdx]) {
       return
     }
-    if (this.state.lastGarbageCollectionIdx > ballIdx || this.state.lastGarbageCollectionIdx == -1) {
+    if (this.state.lastGarbageCollectionIdx > ballIdx || this.state.lastGarbageCollectionIdx === -1) {
       this.state.lastGarbageCollectionIdx = ballIdx
     }
     delete this.balls[ballIdx]
@@ -196,6 +196,10 @@ class GravityWorld {
 
     if (this.state.render) {
       this.render()
+    }
+
+    if (this.state.pause === false) {
+      window.requestAnimationFrame(this.operate.bind(this))
     }
 
     this.state.round += 1
